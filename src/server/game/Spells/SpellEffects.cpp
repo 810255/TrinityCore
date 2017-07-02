@@ -4321,13 +4321,13 @@ void Spell::EffectForceDeselect(SpellEffIndex /*effIndex*/)
     WorldPacket data(SMSG_BREAK_TARGET, m_caster->GetPackGUID().size());
     data << m_caster->GetPackGUID();
     Trinity::MessageDistDelivererToHostile notifierBreak(m_caster, &data, dist);
-    m_caster->VisitNearbyWorldObject(dist, notifierBreak);
+    Cell::VisitWorldObjects(m_caster, notifierBreak, dist);
 
     // and selection
     data.Initialize(SMSG_CLEAR_TARGET, 8);
     data << uint64(m_caster->GetGUID());
     Trinity::MessageDistDelivererToHostile notifierClear(m_caster, &data, dist);
-    m_caster->VisitNearbyWorldObject(dist, notifierClear);
+    Cell::VisitWorldObjects(m_caster, notifierBreak, dist);
 
     // we should also force pets to remove us from current target
     Unit::AttackerSet attackerSet;
@@ -4462,9 +4462,10 @@ void Spell::EffectKnockBack(SpellEffIndex effIndex)
     if (!unitTarget)
         return;
 
-    if (Creature* creatureTarget = unitTarget->ToCreature())
-        if (creatureTarget->isWorldBoss() || creatureTarget->IsDungeonBoss())
-            return;
+    if (m_caster->GetTypeId() == TYPEID_PLAYER || m_caster->GetOwnerGUID().IsPlayer() || m_caster->IsHunterPet())
+        if (Creature* creatureTarget = unitTarget->ToCreature())
+            if (creatureTarget->isWorldBoss() || creatureTarget->IsDungeonBoss())
+                return;
 
     // Spells with SPELL_EFFECT_KNOCK_BACK (like Thunderstorm) can't knockback target if target has ROOT/STUN
     if (unitTarget->HasUnitState(UNIT_STATE_ROOT | UNIT_STATE_STUNNED))
