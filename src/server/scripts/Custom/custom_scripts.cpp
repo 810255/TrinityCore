@@ -16,7 +16,12 @@ struct npc_spam_spellcaster : public ScriptedAI
         }
 
         // Called at any Damage to any victim (before damage apply)
-        void DamageDealt(Unit* /*victim*/, uint32& damage, DamageEffectType /*damageType*/)
+        void DamageDealt(Unit* /*victim*/, uint32& damage, DamageEffectType /*damageType*/) override
+        {
+            damage = 0;
+        }
+
+        void DamageTaken(Unit* who, uint32& damage, DamageEffectType dmgType, SpellInfo const*) override
         {
             damage = 0;
         }
