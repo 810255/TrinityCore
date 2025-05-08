@@ -127,12 +127,12 @@ void WorldSession::HandleTraitsCommitConfig(WorldPackets::Traits::TraitsCommitCo
             newConfigState.Entries.emplace_back() = newEntry;
     }
 
-    TraitMgr::LearnResult validationResult = TraitMgr::ValidateConfig(newConfigState, _player, true);
-    if (validationResult != TraitMgr::LearnResult::Ok)
-    {
-        SendPacket(WorldPackets::Traits::TraitConfigCommitFailed(configId, 0, AsUnderlyingType(validationResult)).Write());
-        return;
-    }
+    //TraitMgr::LearnResult validationResult = TraitMgr::ValidateConfig(newConfigState, _player, true);
+    //if (validationResult != TraitMgr::LearnResult::Ok)
+    //{
+    //    SendPacket(WorldPackets::Traits::TraitConfigCommitFailed(configId, 0, AsUnderlyingType(validationResult)).Write());
+    //    return;
+    //}
 
     bool needsCastTime = newConfigState.Type == TraitConfigType::Combat && hasRemovedEntries;
 

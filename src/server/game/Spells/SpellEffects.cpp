@@ -976,6 +976,13 @@ void Spell::EffectTeleportUnits()
     if (!targetDest.GetOrientation() && m_targets.GetUnitTarget())
         targetDest.SetOrientation(m_targets.GetUnitTarget()->GetOrientation());
 
+    if (m_spellInfo->HasAttribute(SPELL_ATTR9_FACE_UNIT_TARGET_UPON_COMPLETION_OF_JUMP_CHARGE))
+    {
+        auto target = ObjectAccessor::GetUnit(*unitTarget, unitTarget->GetTarget());
+        if (target)
+            targetDest.SetOrientation(targetDest.GetAbsoluteAngle(target));
+    }
+
     Player* player = unitTarget->ToPlayer();
 
     if (player)

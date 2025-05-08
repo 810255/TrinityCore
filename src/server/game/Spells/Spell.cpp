@@ -5846,7 +5846,7 @@ SpellCastResult Spell::CheckCast(bool strict, int32* param1 /*= nullptr*/, int32
             if (!(_triggeredCastFlags & TRIGGERED_IGNORE_CASTER_AURASTATE))
             {
                 // These two auras check SpellFamilyName defined by db2 class data instead of current spell SpellFamilyName
-                if (playerCaster->HasAuraType(SPELL_AURA_DISABLE_CASTING_EXCEPT_ABILITIES)
+                if ((playerCaster->HasAuraType(SPELL_AURA_DISABLE_CASTING_EXCEPT_ABILITIES) && m_spellInfo->Id != 57840)
                     && !m_spellInfo->HasAttribute(SPELL_ATTR0_USES_RANGED_SLOT)
                     && !m_spellInfo->HasEffect(SPELL_EFFECT_ATTACK)
                     && !m_spellInfo->HasAttribute(SPELL_ATTR12_IGNORE_CASTING_DISABLED)

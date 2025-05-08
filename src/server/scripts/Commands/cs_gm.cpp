@@ -61,20 +61,11 @@ public:
     }
 
     // Enables or disables the staff badge
-    static bool HandleGMChatCommand(ChatHandler* handler, Optional<bool> enableArg)
+    static bool HandleGMChatCommand(ChatHandler* handler)
     {
         if (WorldSession* session = handler->GetSession())
         {
-            if (!enableArg)
-            {
-                if (session->HasPermission(rbac::RBAC_PERM_CHAT_USE_STAFF_BADGE) && session->GetPlayer()->isGMChat())
-                    session->SendNotification(LANG_GM_CHAT_ON);
-                else
-                    session->SendNotification(LANG_GM_CHAT_OFF);
-                return true;
-            }
-
-            if (*enableArg)
+            if (!session->GetPlayer()->isGMChat())
             {
                 session->GetPlayer()->SetGMChat(true);
                 session->SendNotification(LANG_GM_CHAT_ON);

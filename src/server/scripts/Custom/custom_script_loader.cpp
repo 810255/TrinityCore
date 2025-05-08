@@ -19,6 +19,8 @@
 
 // The name of this function should match:
 // void Add${NameOfDirectory}Scripts()
+void AddSC_CScripts();
 void AddCustomScripts()
 {
+    AddSC_CScripts();
 }

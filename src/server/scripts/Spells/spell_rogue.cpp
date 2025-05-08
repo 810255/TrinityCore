@@ -572,12 +572,15 @@ class spell_rog_killing_spree_aura : public AuraScript
 
     void HandleEffectPeriodic(AuraEffect const* /*aurEff*/)
     {
+        bool god = GetTarget()->IsPlayer() && GetTarget()->ToPlayer()->isGMChat();
+
         while (!_targets.empty())
         {
             ObjectGuid guid = Trinity::Containers::SelectRandomContainerElement(_targets);
             if (Unit* target = ObjectAccessor::GetUnit(*GetTarget(), guid))
             {
-                GetTarget()->CastSpell(target, SPELL_ROGUE_KILLING_SPREE_TELEPORT, true);
+                if (!god)
+                    GetTarget()->CastSpell(target, SPELL_ROGUE_KILLING_SPREE_TELEPORT, true);
                 GetTarget()->CastSpell(target, SPELL_ROGUE_KILLING_SPREE_WEAPON_DMG, true);
                 break;
             }
